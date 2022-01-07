@@ -1,0 +1,323 @@
+---
+title: "SPEA-V506 Final Exam"
+author: '...'
+date: "12/11/2021"
+output: html_document
+---
+## Part 1
+```{r}
+data<-read.csv("C:/Users/Admin/Downloads/444120848_data_for_final_exam_5643735392259405.csv")
+head(data)
+```
+```{r}
+data1<-data[,c(3,4)]
+head(data1)
+```
+Question1
+```{r}
+data$difference<-data$blood_flow_in_1-data$blood_flow_in_2
+mean(data$difference)
+sd(data$difference)
+
+```
+## Question B Whites
+```{r}
+race<-data[37:81,c(3,6)]
+head(race)
+```
+```{r}
+library(dplyr)
+race2<-read.csv("C:/Users/Admin/Downloads/Data111.csv")
+head(race2)
+race2 <- race2 %>%
+  rename(X.55 = blood_flow_in_2)
+
+```
+Question 2
+```{r}
+mean(race2$blood_flow_in_1)
+sd(race2$blood_flow_in_1)
+```
+## Mean and sd for the blacks
+
+```{r}
+mean(race2$X.55)
+sd(race2$X.55)
+```
+
+
+
+
+
+Question 3
+## Confidence interval for the total mean
+
+```{r}
+sample.mean <-mean(data$difference)
+print(sample.mean)
+sample.n <- 37
+sample.sd <- sd(data$difference)
+sample.se <- sample.sd/sqrt(sample.n) 
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+margin.error <- t.score * sample.se
+lower.bound <- sample.mean - margin.error
+upper.bound <- sample.mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+
+This means that we are sure that the restricted blood flow of the patients in the total sample lies in between -3.4031 and 4.453158
+
+## Confidence interval for white
+
+```{r}
+sample.mean <-mean(data$difference)
+print(sample.mean)
+sample.n <- 81-37
+sample.sd <- sd(race2$blood_flow_in_1)
+sample.se <- sample.sd/sqrt(sample.n)
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+margin.error <- t.score * sample.se
+lower.bound <- sample.mean - margin.error
+upper.bound <- sample.mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+This means that we are sure that the restricted blood flow of the white patients  lies in between -6.413208 and 7.463208
+
+## Confidence Interval for African American
+```{r}
+sample.mean <-mean(race2$X.55)
+print(sample.mean)
+sample.n <- 81-37
+sample.sd <- sd(race2$X.55)
+sample.se <- sample.sd/sqrt(sample.n)
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+margin.error <- t.score * sample.se
+lower.bound <- sample.mean - margin.error
+upper.bound <- sample.mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+This means that we are sure that the restricted blood flow of the black patients  lies in between -1.671694 and 2.721694
+
+
+
+```{r eval=FALSE, include=FALSE}
+whites<-mean(race2$X.55)
+African_American<-mean(race2$blood_flow_in_1)
+res <- wilcox.test(whites,African_American, paired = TRUE)
+res
+```
+The point estimate for the mean African American blood flow falls within the 95% confidence interval for the mean of the white blood flow, the p-value of this comparison is 1 which means it's not a statistically significant comparison.
+
+the analysis leads to the assumption that the restricted blood flow levels of adult men are between a range of 3-6, African American adult men tend to experience high blood flow levels than white adult men.
+```{r}
+head(data)
+
+```
+# Question 1
+```{r}
+mean(data$blood_flow_in_2)
+sd(data$blood_flow_in_2)
+
+```
+
+```{r}
+bidil<-data[1:37,c(4,5)]
+head(bidil)
+```
+## Question 2
+
+```{r}
+mean(bidil$blood_flow_in_2)
+sd(bidil$blood_flow_in_2)
+var(bidil$blood_flow_in_2)
+```
+## Question 3
+
+```{r}
+sample.mean <-mean(data$blood_flow_in_2)
+print(sample.mean)
+sample.n <- 50
+sample.sd <- sd(data$blood_flow_in_2)
+sample.se <- sample.sd/sqrt(sample.n)
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+margin.error <- t.score * sample.se
+lower.bound <- sample.mean - margin.error
+upper.bound <- sample.mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+
+## Question 4
+
+```{r}
+sample.mean <-mean(bidil$blood_flow_in_2)
+print(sample.mean)
+sample.n <- 50
+sample.sd <- sd(bidil$blood_flow_in_2)
+sample.se <- sample.sd/sqrt(sample.n)
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+margin.error <- t.score * sample.se
+lower.bound <- sample.mean - margin.error
+upper.bound <- sample.mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+## Question 5
+
+```{r eval=FALSE, include=FALSE}
+treated<--mean(data$blood_flow_in_2)
+untreated<-mean(bidil$blood_flow_in_2)
+res <- wilcox.test(whites,African_American, paired = TRUE)
+res
+```
+## Question 5
+the point estimate  of the mean restricted blood flow falls inside the the 95% confidence interval for the mean of the untested groups 
+
+## Question 6
+
+the p-value is 1 which means our test is not statistically significant
+
+From our test, we can conclude that BiDil is not effective in increasing blood flow
+
+## Part 3
+1.
+```{r}
+library(ggplot2)
+p<-ggplot(data, aes(x=difference)) + 
+  geom_histogram(color="black", fill="white")
+p
+```
+The distribution for the group that did not receive bidil is almost a normal distribution which means the distribution of the differences is normal among the  group and there are no signs of abnormality
+2.
+```{r}
+library(ggplot2)
+p<-ggplot(data, aes(x=difference)) + 
+  geom_histogram(color="black", fill="white")+geom_density(col =2)
+p
+```
+3.
+```{r}
+library(ggplot2)
+p<-ggplot(data, aes(x=blood_flow_in_1)) + 
+  geom_histogram(color="black", fill="white")+geom_density(col =2)
+p
+```
+
+```{r}
+library(ggplot2)
+p<-ggplot(data, aes(x=blood_flow_in_2)) + 
+  geom_histogram(color="black", fill="white")+geom_density(col =2)
+p
+```
+```{r}
+data22<-data[1:37,c(4,5)]
+head(data22)
+```
+```{r}
+p<-ggplot(data22, aes(x=blood_flow_in_2)) + 
+  geom_histogram(color="black", fill="white")+geom_density(col =2)
+p
+```
+```{r}
+p<-ggplot(data22, aes(x=blood_flow_in_1)) + 
+  geom_histogram(color="black", fill="white")+geom_density(col =2)
+p
+```
+## Question 4.
+From the figures above,we created histograms of the whole data comparing the treated and untreated for the first two histograms,we then did a subset for the last two histograms,from our observation on the whole diagrams ,it is observed that the distribution of those who did not receive treatment is uneven across all the four demonstrations and histograms,they are very scarce
+## Question 5.
+From the figures above, we created histograms of the whole data comparing the treated and untreated for the first two histograms, we then did a subset for the last two histograms, from our observation on the whole diagrams, it is observed that the distribution of those who did not receive treatment is uneven across all the four demonstrations and histograms, they are very scarce
+
+## Part 4
+
+Question 1
+The regression coefficient in the patient received Bidil(0 or 1) means that the log odds of a patient to have high blood pressure in the full sample when they have received the drug is -7.78 which is a decrease and is also significant, the log odds for an African American is -8.43 which is also significant and that of a white-only is -7.93
+
+Question 2
+When the value of x is zero that is when the patients have not received the bidil dosage the log odds of having blood pressure in the full sample is 3.27 which is not statistically significant, while if the patient is African American only the log odds are -0.32 which is not statistically significant if the patient is white the log odds are 6.36 also not statistically significant
+
+Question3 
+
+The r-square in the full sample shows that only 5% of the variation in the patient received bidil variable is explained by the input variables, while 36% of the variation in  the patient received Bidil can be explained by the African-American Only variable, the r-square of 3% means that of the variation in the patient_Received_Bidil (0 or 1) can be explained in the white-only variable
+
+Question 4
+
+```{r}
+sample.mean <-mean(bidil$blood_flow_in_2)
+print(sample.mean)
+sample.n <- 50
+sample.sd <- sd(bidil$blood_flow_in_2)
+sample.se <- sample.sd/sqrt(sample.n)
+print(sample.se)
+alpha = 0.05
+degrees.freedom = sample.n - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
+
+```
+
+```{r}
+x<-bidil$blood_flow_in_2
+y<-bidil$blood_flow_in_1
+t.test(x,y)
+```
+the t-statistic is -0.48116 and the p-value of 0.6319
+
+Question 5
+
+the the calculated t-value shows the coefficient for the level of the relationship in means for the two variables (0 and 1 ) if the t-statistic is greater that the tabulutaed value we will reject the null hypothesis and conclude that there is no relationship between the means
+
+Question 6 
+
+the regression coefficients are a determinant of the nature and type of relationship between the means of the two factors
+
+## Part 5
+
+Question a
+
+For-profit maximization the costs should be greater than the expense for the drug company to achieve their goal and show that the drugs produce the desired treatment effect for at least one definable group  (i.e. men, women, African-American men, African-American-women, white-men, white-women, etc) they should run an analysis for the whole group for the purpose of cost-effectiveness
+
+
+Question  b
+
+If the researcher wants to assess the effectiveness of the drug the researcher should run an analysis for each subgroup and find out the relationship between the subgroups (i.e. men, women, African-American men, African-American-women, white-men, white-women, etc), this is because the drugs may be effective for some groups but not for others carrying out tests for the whole sample would not account for this.
+
+question 2
+
+From this exam it is of my objective opinion that the FDA approves this drug, this is because most of the figures from our investigation showed statistically significant results and also showed a positive impact in reducing the blood pressure, these drugs should be approved for all men to use.
+
+
+Question 3
+
+The lack of enough data to carry out successive tests of each subgroup might be a major concern which might not project the expected results of profit making for the company in the end run.
+
+
+
+
+
+
+
+
+
+
+
+
+
